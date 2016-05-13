@@ -1,5 +1,11 @@
-import React from 'react';
-var ReactCSSTransitionGroup = require('react-addons-css-transition-group');
+import React from 'react'
+import ReactDOM from 'react-dom';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+
+
+import Form from './Form'
+
+
 
 class App extends React.Component {
 
@@ -13,8 +19,9 @@ class App extends React.Component {
       this.handleAdd = this.handleAdd.bind(this);
    };
 
-   handleAdd() {
-      var newItems = this.state.items.concat([prompt('Create New Item')]);
+   handleAdd(event) {
+     event.preventDefault();
+     const newItems = this.state.items.concat(ReactDOM.findDOMNode(this.refs.theInput).value);
       this.setState({items: newItems});
    }
 
@@ -36,7 +43,14 @@ class App extends React.Component {
 
       return (
          <div>
-            <button onClick = {this.handleAdd}>Add Item</button>
+
+           <form onSubmit={this.handleAdd.bind(this)}>
+             <div className='form-group'>
+               <label htmlFor="list-item">Add an item to the list</label>
+               <input ref="theInput" type="text" className="form-control" id="list-item" placeholder="Add your item here"/>
+             </div>
+              <button type="submit" className="btn btn-default">Submit</button>
+           </form>
 
             <ReactCSSTransitionGroup transitionName = "example"
                transitionEnterTimeout = {500} transitionLeaveTimeout = {500}>
